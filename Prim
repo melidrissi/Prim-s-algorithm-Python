@@ -1,0 +1,42 @@
+# Prim-s-algorithm-Python
+
+import json
+import random
+
+#le graphe doit etre entrer par l'utilisateur sous forme de dictionnaire / ex: G={'ab':5,'ac':2,'ad':4,'ce':3,'de':1}
+
+def prim(G,S):
+    P=[random.choice(S)]
+    poid=0
+    m=0
+    arbre=[]
+    while len(P)!=len(S):
+        #print(".")
+        V=[]
+        for i in P:
+            for j in S:
+                if j not in P and i+j in G :
+                    V.append((i+j, G[i+j]))
+                elif j not in P and j+i in G :
+                    V.append((i+j, G[j+i]))
+        m=sorted(V, key=lambda x: x[1])
+        poid=poid+m[0][1]
+        arbre.append(m[0])
+        P.append(m[0][0][1])
+    return poid, arbre
+
+g=input('entrer un graph sous forme de dictionnaire: ')
+G=json.loads(g.replace("'", '"'))
+
+S=set()
+for arret in G:
+  S=S.union({arret[0], arret[1]})
+
+#S=[]
+#if arret[0] not in S: S.append(arret[0])
+#if arret[1] not in S: S.append(arret[1])
+    
+   
+    
+print(prim(G,list(S)))
+
